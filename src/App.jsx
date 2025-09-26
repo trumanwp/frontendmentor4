@@ -1,8 +1,29 @@
 import './App.css'
 import { CiFacebook, CiTwitter, CiInstagram } from "react-icons/ci";
+import {useState} from "react";
 
 
 function App() {
+    const [email,setEmail] = useState("");
+    const [error,setError] = useState("");
+
+    const handleSubmit = (e) => {
+        e.preventDefault();
+
+        const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+        if (!email){
+            setError("Please enter a valid email");
+        } else if(!emailRegex.test(email)){
+            setError("Invalid email")
+        } else {
+            setError("")
+            alert("Subscribed with " + email);
+            setEmail("")
+        }
+    }
+
+
+
 
   return (
     <main className="w-screen h-screen flex flex-col  ">
@@ -13,15 +34,20 @@ function App() {
             </div>
             <h3 className="p-4 text-xl text-gray-400">Subscribe and get notified</h3>
 
-            <section className="flex flex-row p-4 gap-4 ">
-                <form className="border-2 border-blue-50 rounded-4xl p-4 h-12 px-20 text-gray-700 ">
-                    <input className=""
-                        type="email"
-                        name="email"
-                        placeholder="Your email address..."
-                    />
-                </form>
-                <button className="bg-blue-500 overflow-hidden rounded-4xl text-white p-4 px-16 h-12">Notify Me</button>
+            <section className="flex flex-col sm:flex-row p-4 gap-4 ">
+
+                    <form onSubmit={handleSubmit} className="flex flex-col sm:flex-row gap-4">
+                        <input className="border-2 border-blue-50 rounded-4xl p-4 h-12 leading-3 px-20 text-gray-700 text-center"
+                               type="email"
+                               value={email}
+                               placeholder="Your email address..."
+                               onChange={(e) => setEmail(e.target.value)}
+                        />
+                        <button type = "submit" className="bg-blue-500 overflow-hidden rounded-4xl text-white p-4 px-16 h-12 leading-3 active:scale-95 whitespace-nowrap">Notify Me</button>
+
+                    </form>
+
+
             </section>
 
             <img className="py-12 max-h-1/2" src="../src/images/illustration-dashboard.png" alt="dashboard image"/>
